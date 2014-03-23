@@ -49,6 +49,7 @@ def part(partid):
     x.add_row(['Location',part['storageLocationName']])
     x.add_row(['Category',part['categoryName']])
     x.add_row(['Footprint',part['footprint']])
+    x.add_row(['Condition',part['partCondition']])
     x.add_row(['Stock',part['stockLevel']])
     print x
 
