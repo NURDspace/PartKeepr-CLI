@@ -35,8 +35,14 @@ class partkeepr:
             self.session_key = re.search('\"auto_start_session\":\"(.*)\"', data, re.IGNORECASE).group(0).split(':')[1].split('"')[1]
             self.headers = {"Content-type": "application/json", "Accept": "text/plain", 'Authorization':'Basic %s'%auth,'session':self.session_key}
 
+
+    def part(self,partid):
+        self.conn.request("GET", "/frontend/rest.php/Part/%s"%partid, "",self.headers)
+        response = self.conn.getresponse()
+        data = response.read()
+        return json.loads(data)['response']['data']
+
     def search(self,query):
-        self.conn = httplib.HTTPSConnection(self.hostname)
         self.conn.request("GET", "/frontend/rest.php/Part?query=%s"%query, "",self.headers)
         response = self.conn.getresponse()
         data = response.read()
@@ -61,4 +67,15 @@ class partkeepr:
             print "A error occurd"
         else:
             return data
+
+    def stockhistory(self,part):
+        data = {'part':part,'limit':10,'start':0,'page':1}
+        self.conn.request("GET", "/frontend/rest.php/Stock", json.dumps(data),self.headers)
+        response = self.conn.getresponse()
+        data = json.loads(response.read())
+        if data['status'] != "ok":
+            print "A error occurd"
+            print data
+        else:
+            return data['response']['data']
        

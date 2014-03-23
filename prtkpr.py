@@ -36,7 +36,28 @@ def search(query):
     print x
 
 def part(partid):
-    print partid
+    part = prtkpr.part(partid)
+    stock = prtkpr.stockhistory(partid)
+    x = PrettyTable(["Name","Value"])
+    x.align = "l"
+    x.add_row(['ID',part['id']])
+    x.add_row(['Name',part['name']])
+    x.add_row(['Description',part['description']])
+    x.add_row(['Location',part['storageLocationName']])
+    x.add_row(['Category',part['categoryName']])
+    x.add_row(['Footprint',part['footprint']])
+    x.add_row(['Stock',part['stockLevel']])
+    print x
+
+    print "Stock history:"
+    x = PrettyTable(["+|-","Date","User","Amount","Price","Comment"])
+    for log in stock:
+        if log['direction'] == 'in':
+            direction = "+"
+        else:
+            direction = "-"
+        x.add_row([direction,log['dateTime'],log['username'],log['stockLevel'],log['price'],log['comment']])
+    print x
 
 if __name__ == '__main__':
     arguments = docopt(__doc__)
