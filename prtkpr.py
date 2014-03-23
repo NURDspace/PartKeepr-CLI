@@ -14,16 +14,18 @@ Options:
   --version     Show version.
 
 """
+
+__version__ = "0.0.1-dev"
+
 from docopt import docopt
 from partkeepr import partkeepr
 from prettytable import PrettyTable
 import ConfigParser
+import sys
 
 config = ConfigParser.RawConfigParser()
 config.read('partkeepr.conf')
 
-prtkpr = partkeepr(config.get('partkeepr', 'hostname'),config.get('partkeepr', 'username'),config.get
-('partkeepr', 'password'),int(config.get('partkeepr','method')))
 
 def search(query):
     x = PrettyTable(["ID","Part", "Stock", "Location","Description"])
@@ -43,6 +45,7 @@ def part(partid):
     x.add_row(['ID',part['id']])
     x.add_row(['Name',part['name']])
     x.add_row(['Description',part['description']])
+    x.add_row(['Comment',part['comment']])
     x.add_row(['Location',part['storageLocationName']])
     x.add_row(['Category',part['categoryName']])
     x.add_row(['Footprint',part['footprint']])
@@ -62,6 +65,12 @@ def part(partid):
 if __name__ == '__main__':
     arguments = docopt(__doc__)
 #    print(arguments)
+    if arguments['--version']:
+        print "prtkpr CLI %s"%__version__
+        sys.exit(0) 
+
+    prtkpr = partkeepr(config.get('partkeepr', 'hostname'),config.get('partkeepr', 'username'),config.get('partkeepr', 'password'),int(config.get('partkeepr','method')))
+
     if arguments['search']:
         search(arguments['<query>'])
     elif arguments['part']:
