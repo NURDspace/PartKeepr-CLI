@@ -3,6 +3,9 @@
 
 Usage:
   prtkpr.py search <query>
+  prtkpr.py part <id>
+  prtkpr.py stockadd <id> <amount> <price>
+  prtkpr.py stockrm <id> <amount>
   prtkpr.py -h | --help
   prtkpr.py --version
 
@@ -31,10 +34,18 @@ def search(query):
         x.add_row([item['id'],item['name'],item['stockLevel'],item['storageLocationName'],item['description']])
     x.add_row(['','    Total',searchdata['response']['totalCount'],'',''])
     print x
-    
+
+def part(partid):
+    print partid
 
 if __name__ == '__main__':
     arguments = docopt(__doc__)
 #    print(arguments)
     if arguments['search']:
-        search(arguments['<query>']) 
+        search(arguments['<query>'])
+    elif arguments['part']:
+        part(arguments['<id>'])
+    elif arguments['stockadd']:
+        prtkpr.stockadd(arguments['<id>'],arguments['<amount>'],arguments['<price>'])
+    elif arguments['stockrm']:
+        prtkpr.stockremove(arguments['<id>'],arguments['<amount>'])
