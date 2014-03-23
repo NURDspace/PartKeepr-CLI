@@ -51,4 +51,14 @@ class partkeepr:
             print "A error occurd"
         elif:
             return data
-        
+ 
+    def stockadd(self,part,amount,price=0.00,desc=""):
+        data = {'stock':amount,'part':part,'comment':desc,'price':price}
+        self.conn.request("GET", "/frontend/rest.php/Part/addStock", json.dumps(data),self.headers)
+        response = self.conn.getresponse()
+        data = json.loads(response.read())
+        if data['status'] != "ok":
+            print "A error occurd"
+        elif:
+            return data
+       
