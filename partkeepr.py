@@ -49,7 +49,7 @@ class partkeepr:
         data = json.loads(response.read())
         if data['status'] != "ok":
             print "A error occurd"
-        elif:
+        else:
             return data
  
     def stockadd(self,part,amount,price=0.00,desc=""):
@@ -59,6 +59,6 @@ class partkeepr:
         data = json.loads(response.read())
         if data['status'] != "ok":
             print "A error occurd"
-        elif:
+        else:
             return data
        
